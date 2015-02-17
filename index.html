@@ -5,6 +5,26 @@
     <title>g0ld3nrati0</title>
 </head>
 <body>
-umm...
+umm... <div id="js_rnd"></div>
+
+<script type="text/javascript">
+
+    var outStr = "";
+    var len = 30;
+
+    var min = 48;
+    var max = 122;
+
+    for(var i = 0; i < len; i++)
+    {
+        var rnd = Math.floor(Math.random() * (max - min) + min);
+        outStr += String.fromCharCode(rnd);
+    }
+
+    var rndContainer = document.getElementById("js_rnd");
+    rndContainer.textContent = outStr;
+
+</script>
 </body>
+
 </html>
