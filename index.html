@@ -10,9 +10,32 @@
 
 </head>
 <body>
-umm... <div id="js_rnd"></div>
+umm... Random password generator, <br><br>
+<div id="js_rnd" title="Press Ctrl+C to copy" style="cursor: default;">
+
+</div>
 
 <script type="text/javascript">
+
+    function selectText(htmlElement)
+    {
+        var range, selection;
+
+        if (document.body.createTextRange)
+        {
+            range = document.body.createTextRange();
+            range.moveToElementText(htmlElement);
+            range.select();
+        }
+        else if (window.getSelection)
+        {
+            selection = window.getSelection();
+            range = document.createRange();
+            range.selectNodeContents(htmlElement);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }
 
     var outStr = "";
     var len = 30;
@@ -28,6 +51,14 @@ umm... <div id="js_rnd"></div>
 
     var rndContainer = document.getElementById("js_rnd");
     rndContainer.textContent = outStr;
+    selectText(rndContainer);
+
+    rndContainer.addEventListener("click", onTextClick);
+    function onTextClick(event)
+    {
+        selectText(rndContainer);
+    }
+
 
 </script>
 </body>
