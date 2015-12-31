@@ -1,2 +1,2 @@
 # goldenratio.github.io
-Blog https://goldenratio.github.io/
+Bhttps://goldenratio.github.io/
