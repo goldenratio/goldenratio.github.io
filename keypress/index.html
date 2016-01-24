@@ -1,0 +1,60 @@
+<html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<title>KeyCode test</title>
+
+<body>
+
+<div>
+	Key: <span id="js_key">-</span>
+	<br><br>
+	onKeyDown: <span id="js_keyDown">-</span> <br>
+	onKeyUp: <span id="js_keyUp">-</span> <br><br>
+
+	Mouse Click: <span id="js_mouseClick">-</span> <br>
+	
+</div>
+
+<script>
+
+window.addEventListener("load", onLoad);
+
+function onLoad(event)
+{
+	document.addEventListener("keydown", onKeyDown);
+	document.addEventListener("keyup", onKeyUp);
+
+	document.addEventListener("click", onMouseClick);
+	
+}
+
+function onKeyDown(event)
+{
+	console.log("keydown ", event.keyCode, event.code);
+
+	document.getElementById("js_key").innerText = event.code;
+	document.getElementById("js_keyDown").innerText = event.keyCode;
+	document.getElementById("js_keyUp").innerText = "-";
+	document.getElementById("js_mouseClick").innerText = "-";
+}
+
+function onKeyUp(event)
+{
+	console.log("keyup ", event.keyCode);
+
+	if(document.getElementById("js_keyDown").innerText == "-")
+	{
+		return;
+	}
+	document.getElementById("js_keyUp").innerText = event.keyCode;
+}
+
+function onMouseClick(event)
+{
+	console.log(event);
+	document.getElementById("js_mouseClick").innerText = "Yes";
+}
+</script>
+</body>
+
+<html>
