@@ -34,53 +34,53 @@ function onLoad(event)
 
 function onKeyDown(event)
 {
-	console.log("keydown ", event.keyCode, event.code);
+	//console.log("keydown ", event.keyCode, event.code);
 
-	document.getElementById("js_key").innerText = event.code;
-	document.getElementById("js_keyDown").innerText = event.keyCode;
-	document.getElementById("js_keyUp").innerText = "-";
-	document.getElementById("js_mouseDown").innerText = "-";
-	document.getElementById("js_mouseUp").innerText = "-";
+	document.getElementById("js_key").innerHTML = event.code;
+	document.getElementById("js_keyDown").innerHTML = event.keyCode;
+	document.getElementById("js_keyUp").innerHTML = "-";
+	document.getElementById("js_mouseDown").innerHTML = "-";
+	document.getElementById("js_mouseUp").innerHTML = "-";
 
 	event.preventDefault();
 }
 
 function onKeyUp(event)
 {
-	console.log("keyup ", event.keyCode);
+	//console.log("keyup ", event.keyCode);
 
-	if(document.getElementById("js_keyDown").innerText == "-")
+	if(document.getElementById("js_keyDown").innerHTML == "-")
 	{
 		event.preventDefault();
 		return;
 	}
-	document.getElementById("js_keyUp").innerText = event.keyCode;
+	document.getElementById("js_keyUp").innerHTML = event.keyCode;
 	event.preventDefault();
 }
 
 function onMouseDown(event)
 {
-	console.log(event);
-	document.getElementById("js_key").innerText = "-";
-	document.getElementById("js_keyDown").innerText = "-";
-	document.getElementById("js_keyUp").innerText = "-";
-	document.getElementById("js_mouseDown").innerText = "Yes";
+	//console.log(event);
+	document.getElementById("js_key").innerHTML = "-";
+	document.getElementById("js_keyDown").innerHTML = "-";
+	document.getElementById("js_keyUp").innerHTML = "-";
+	document.getElementById("js_mouseDown").innerHTML = "Yes";
 	event.preventDefault();
 }
 
 function onMouseUp(event)
 {
-	console.log(event);
-	document.getElementById("js_key").innerText = "-";
-	document.getElementById("js_keyDown").innerText = "-";
-	document.getElementById("js_keyUp").innerText = "-";
-	document.getElementById("js_mouseUp").innerText = "Yes";
+	//console.log(event);
+	document.getElementById("js_key").innerHTML = "-";
+	document.getElementById("js_keyDown").innerHTML = "-";
+	document.getElementById("js_keyUp").innerHTML = "-";
+	document.getElementById("js_mouseUp").innerHTML = "Yes";
 	event.preventDefault();
 }
 
 function onMouseMove(event)
 {
-	document.getElementById("js_mouse").innerText = "Yes";
+	document.getElementById("js_mouse").innerHTML = "Yes";
 }
 </script>
 </body>
