@@ -36,6 +36,8 @@ function onKeyDown(event)
 	document.getElementById("js_keyDown").innerText = event.keyCode;
 	document.getElementById("js_keyUp").innerText = "-";
 	document.getElementById("js_mouseClick").innerText = "-";
+
+	event.preventDefault();
 }
 
 function onKeyUp(event)
@@ -44,9 +46,11 @@ function onKeyUp(event)
 
 	if(document.getElementById("js_keyDown").innerText == "-")
 	{
+		event.preventDefault();
 		return;
 	}
 	document.getElementById("js_keyUp").innerText = event.keyCode;
+	event.preventDefault();
 }
 
 function onMouseClick(event)
@@ -56,6 +60,7 @@ function onMouseClick(event)
 	document.getElementById("js_keyDown").innerText = "-";
 	document.getElementById("js_keyUp").innerText = "-";
 	document.getElementById("js_mouseClick").innerText = "Yes";
+	event.preventDefault();
 }
 </script>
 </body>
