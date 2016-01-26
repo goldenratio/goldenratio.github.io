@@ -13,7 +13,9 @@
 
 	Mouse Available: <span id="js_mouse">-</span> <br>
 	Mouse Down: <span id="js_mouseDown">-</span> <br>
-	Mouse Up: <span id="js_mouseUp">-</span> <br>
+	Mouse Up: <span id="js_mouseUp">-</span> <br><br>
+	
+	HTML5 Gamepad API supported: <span id="js_gamepad">-</span> <br>
 	
 </div>
 
@@ -29,6 +31,11 @@ function onLoad(event)
 	document.addEventListener("mousemove", onMouseMove);
 	document.addEventListener("mousedown", onMouseDown);
 	document.addEventListener("mouseup", onMouseUp);
+	
+	if(typeof navigator.getGamepads !== "undefined")
+	{
+		document.getElementById("js_gamepad").innerHTML = "Yes";
+	}
 	
 }
 
