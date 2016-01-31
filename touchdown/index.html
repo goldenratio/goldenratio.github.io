@@ -30,10 +30,10 @@ Touch Up: <div id="js_touchUp">-</div>
 
 <script type="text/javascript">
 
-document.addEventListener("touchdown", onDownHL);
+document.addEventListener("touchstart", onDownHL);
 document.addEventListener("mousedown", onDownHL);
 
-document.addEventListener("touchup", onUpHL);
+document.addEventListener("touchend", onUpHL);
 document.addEventListener("mouseup", onUpHL);
 
 function onDownHL(event)
