@@ -1,0 +1,38 @@
+<style type="text/css">
+	*
+	{
+		-ms-content-zooming: none;
+    	-ms-touch-action: none;
+
+    	-ms-user-select: none;
+    	user-select: none;
+	}
+</style>
+
+Touch Down: <div id="js_touchDown">-</div>
+Touch Up: <div id="js_touchUp">-</div>
+
+<script type="text/javascript">
+
+document.addEventListener("touchdown", onDownHL);
+document.addEventListener("mousedown", onDownHL);
+
+document.addEventListener("touchup", onUpHL);
+document.addEventListener("mouseup", onUpHL);
+
+function onDownHL(event)
+{
+	document.getElementById("js_touchDown").innerHTML = "yes";
+	document.getElementById("js_touchUp").innerHTML = "-";
+	event.preventDefault();
+}
+
+function onUpHL(event)
+{
+	document.getElementById("js_touchDown").innerHTML = "-";
+	document.getElementById("js_touchUp").innerHTML = "yes";
+
+	event.preventDefault();
+}
+
+</script>
