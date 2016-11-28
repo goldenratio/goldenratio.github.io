@@ -1,0 +1,40 @@
+{
+  "short_name": "PWA",
+  "name": "PWA",
+  "icons": [
+    {
+      "src": "assets/icons/icon32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon60x60.png",
+      "sizes": "60x60",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon90x90.png",
+      "sizes": "90x90",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon196x196.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    }    
+  ],
+
+  "start_url": "/index.html",
+  "display": "fullscreen",
+  "orientation": "landscape"
+}
