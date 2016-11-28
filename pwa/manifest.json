@@ -34,7 +34,7 @@
     }    
   ],
 
-  "start_url": "/index.html",
+  "start_url": "./",
   "display": "fullscreen",
   "orientation": "landscape"
 }
