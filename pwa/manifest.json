@@ -34,7 +34,7 @@
     }    
   ],
 
-  "start_url": "./",
+  "start_url": "./pwa/",
   "display": "fullscreen",
   "orientation": "landscape"
 }
