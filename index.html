@@ -10,58 +10,7 @@
 
 </head>
 <body>
-全画面表示 <br>
-umm... Random password generator, <br><br>
-<div id="js_rnd" title="Press Ctrl+C to copy" style="cursor: default;">
-
-</div>
-
-<script type="text/javascript">
-
-    function selectText(htmlElement)
-    {
-        var range, selection;
-
-        if (document.body.createTextRange)
-        {
-            range = document.body.createTextRange();
-            range.moveToElementText(htmlElement);
-            range.select();
-        }
-        else if (window.getSelection)
-        {
-            selection = window.getSelection();
-            range = document.createRange();
-            range.selectNodeContents(htmlElement);
-            selection.removeAllRanges();
-            selection.addRange(range);
-        }
-    }
-
-    var outStr = "";
-    var len = 30;
-
-    var min = 48;
-    var max = 122;
-
-    for(var i = 0; i < len; i++)
-    {
-        var rnd = Math.floor(Math.random() * (max - min) + min);
-        outStr += String.fromCharCode(rnd);
-    }
-
-    var rndContainer = document.getElementById("js_rnd");
-    rndContainer.textContent = outStr;
-    selectText(rndContainer);
-
-    rndContainer.addEventListener("click", onTextClick);
-    function onTextClick(event)
-    {
-        selectText(rndContainer);
-    }
-
-
-</script>
+42
 </body>
 
 </html>
