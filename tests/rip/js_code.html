@@ -1,0 +1,276 @@
+var gl;
+var canvas;
+var cam = new Object();
+var mouse = new Object();
+
+var demoTime = 0;
+var curTime = (new Date).getTime();
+var lastTime = curTime;
+var elapsed;
+
+// shader
+var program;
+var posAttr, resAttr, timeAttr, camAttr, mouseAttr;
+
+// quad definition
+var vertices = [ -1,1,0, -1,-1,0, 1,-1,0, 1,1,0 ];
+var indices = [ 3, 2, 1, 3, 1, 0 ];
+
+// vertex and index buffers
+var vb, ib;
+
+
+Run();
+
+
+// run demo
+function Run()
+{
+    document.body.style = "height:100%; width:100%; padding:0; margin:0; font-family:Tahoma; background:#000000; font-color:#808080; overflow:hidden";
+
+    // init canvas
+    canvas = document.createElement("canvas");
+    canvas.style.width = "100%";
+    canvas.style.height= "100%";
+    document.body.appendChild(canvas);
+    if (!canvas) { alert('glcanvas not found'); return false; }
+    canvas.width = 800;
+    canvas.height = 450;
+
+    var div = document.createElement("div");
+    div.style = "position:absolute; top:32px; left:32px; font-family:verdana; font-size:32px; color:#FFFF00; font-weight:bold";
+    div.innerHTML = "CAN YOU<br>STEAL THIS<br>JAVASCRIPT CODE?";
+    document.body.appendChild(div);
+
+    // init gl
+    if (!(gl = InitGL(canvas))) { alert('failed to initialize webgl'); return false; }
+    if (!LoadShader()) { alert('failed to load shaders'); return false; }
+    CreateQuad();
+
+    cam.x = cam.y = 0;
+    cam.z = -100;
+    mouse.x = canvas.width / 2;
+    mouse.y = canvas.height / 2;
+
+    // activate shader and vertex attribute
+    gl.useProgram(program);
+    gl.enableVertexAttribArray(posAttr);
+
+    // pass the values which will remain fixed for the entire demo
+    gl.vertexAttribPointer(posAttr, 3, gl.FLOAT, false, 0, 0);
+    gl.uniform2fv(resAttr, [canvas.width, canvas.height]);
+
+    // mouse handling
+    canvas.addEventListener('mousemove', function(event)
+    {
+        var rect = canvas.getBoundingClientRect();
+        mouse.x = event.clientX - rect.left;
+        mouse.y = event.clientY - rect.top;
+    });
+
+    // touch handling
+    canvas.addEventListener('touchmove', function(event)
+    {
+        var rect = canvas.getBoundingClientRect();
+        mouse.x = event.touches[0].clientX - rect.left;
+        mouse.y = event.touches[0].clientY - rect.top;
+    });
+
+    // start demo loop
+    requestAnimationFrame(Draw);
+
+    // succeeded
+    return true;
+}
+
+
+// switch to fullscreen
+function RequestFullscreen()
+{
+    if (document.fullscreenEnabled) return;
+
+    if (canvas.requestFullscreen)
+    {
+        canvas.requestFullscreen();
+    }
+    else if (canvas.msRequestFullscreen)
+    {
+        canvas.msRequestFullscreen();
+    }
+    else if (canvas.mozRequestFullScreen)
+    {
+        canvas.mozRequestFullScreen();
+    }
+    else if (canvas.webkitRequestFullscreen)
+    {
+        canvas.webkitRequestFullscreen();
+    }
+}
+
+
+// initialize gl
+function InitGL()
+{
+    var gl = null;
+
+    try
+    {
+        gl = canvas.getContext("webgl", {antialias:false});
+        gl.disable(gl.DEPTH_TEST);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    catch(e)
+    {
+    }
+
+    return gl;
+}
+
+
+// create a fullscreen quad
+function CreateQuad()
+{
+    vb = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vb);
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+    ib = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, vb);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
+}
+
+
+// load and compile shaders
+function LoadShader()
+{
+    var vertexSource = `
+		attribute vec3 pos;
+    void main(void)
+    {
+        gl_Position = vec4(pos, 1.0);
+    }
+	`;
+
+    var fragmentSource = `
+		precision highp float;
+
+    uniform vec2 res;		// canvas res
+    uniform float time;		// simulation time
+    uniform vec2 mouse;		// normalized mouse coordinates
+    uniform vec3 cam;		// camera position
+
+    void main(void)
+    {
+        // plasma by imerso
+    #define PI 3.1415926535897932384626433832795
+        vec2 uv = vec2(gl_FragCoord.x/res.x, gl_FragCoord.y/res.y) - vec2(.5, .5);
+        uv.x += 0.1*sin(time) + 0.2 * sin(time+uv.y*4.);
+        uv.y += 0.1*cos(time*0.33) + 0.2 * sin(time+uv.x*3.);
+        vec2 suv = uv * (8. + 4. * sin(time));						// zoom
+        float lum = sin(suv.x+time) + sin(suv.y+time/2.);		// repeat
+        lum += sin(sqrt(suv.x*suv.x + suv.y*suv.y)+time*1.5);		// distance field
+        vec3 c = vec3(sin(lum*PI), 0., cos(lum*PI));			// cyclic color
+        c.y = c.x * c.z;						// cyclic color
+        gl_FragColor = vec4(c, 1.0);
+    }
+
+	`;
+
+    var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertexSource);
+    gl.compileShader(vertexShader);
+
+    var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragmentSource);
+    gl.compileShader(fragmentShader);
+
+    program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return false;
+
+    posAttr = gl.getAttribLocation(program, "pos");
+    resAttr = gl.getUniformLocation(program, "res");
+    timeAttr = gl.getUniformLocation(program, "time");
+    mouseAttr = gl.getUniformLocation(program, "mouse");
+    camAttr = gl.getUniformLocation(program, "cam");
+
+    return true;
+}
+
+
+// load one shader program
+function GetShader(id)
+{
+    var shaderScript = document.getElementById(id);
+    if (!shaderScript) return null;
+
+    var theSource = "";
+    var currentChild = shaderScript.firstChild;
+
+    while(currentChild)
+    {
+        if (currentChild.nodeType == 3)
+        {
+            theSource += currentChild.textContent;
+        }
+
+        currentChild = currentChild.nextSibling;
+    }
+
+    var shader;
+
+    if (shaderScript.type == "x-shader/x-fragment")
+    {
+        shader = gl.createShader(gl.FRAGMENT_SHADER);
+    }
+    else if (shaderScript.type == "x-shader/x-vertex")
+    {
+        shader = gl.createShader(gl.VERTEX_SHADER);
+    }
+    else return null;
+
+    gl.shaderSource(shader, theSource);
+    gl.compileShader(shader);
+
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
+    {
+        alert('fragment error: ' + gl.getShaderInfoLog(shader));
+        return null;
+    }
+
+    return shader;
+}
+
+
+// draw scene
+function Draw()
+{
+    // update demo time
+    curTime = (new Date).getTime();
+    elapsed = curTime - lastTime;
+    lastTime = curTime;
+    demoTime += elapsed / 1000;
+
+    // normalize mouse coords
+    var mx = mouse.x / window.innerWidth;
+    var my = mouse.y / window.innerHeight;
+
+    // update shader variables
+    gl.uniform1f(timeAttr, demoTime);
+    gl.uniform2fv(mouseAttr, [ mx, my ]);
+    gl.uniform3fv(camAttr, [ cam.x, cam.y, cam.z ]);
+
+    // draw fullscreen quad
+    gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+
+    // next frame
+    requestAnimationFrame(Draw);
+}
