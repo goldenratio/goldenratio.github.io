@@ -58,7 +58,6 @@
                 type: "box"
             });
 
-            const restitution = 0.5;
             // make the floor white
             floor.model.material = createMaterial("white");
 
@@ -67,12 +66,6 @@
 
             // rotate
             floor.rotate(20, 0, 0);
-
-            // add a collision component
-            floor.addComponent("collision", {
-                type: "box",
-                halfExtents: new pc.Vec3(5, 0.5, 5)
-            });
 
             floor.root.addComponent("script");
             floor.root.script.create("p2Body", {
@@ -90,7 +83,7 @@
 
             floor.root.script.create("p2Material", {
                 attributes: {
-                    restitution: restitution
+                    restitution: 0.5
                 }
             });
         }
@@ -143,18 +136,12 @@
         {
             super();
 
-            const restitution = 0.5;
-
             let sphereTemplate = this;
             sphereTemplate.addComponent("model", {
                 type: "sphere",
                 castShadows: true
             });
 
-            sphereTemplate.addComponent("collision", {
-                type: "sphere",
-                radius: 0.5
-            });
 
             // make the sphere green
             // create a few materials for our objects
@@ -177,7 +164,7 @@
             });
             sphereTemplate.root.script.create("p2Material", {
                 attributes: {
-                    restitution: restitution
+                    restitution: 0.5
                 }
             });
 
@@ -212,7 +199,8 @@
             app.root.script.create("p2World", {
                 attributes: {
                     defaultFriction: 0,
-                    gravity: new pc.Vec2(0, -9.8)
+                    gravity: new pc.Vec2(0, -9.8),
+                    debugDraw: true
                 }
             });
         }
@@ -242,7 +230,9 @@
 
     // A sphere...
     let sphere = new Sphere();
-    app.root.addChild(sphere);
+    setTimeout(() => {
+        app.root.addChild(sphere);
+    }, 1000);
 
     window.addEventListener('resize', ()=> {
         app.resizeCanvas();
