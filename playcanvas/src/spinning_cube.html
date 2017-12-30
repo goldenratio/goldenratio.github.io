@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #application {
+
+        }
+    </style>
+    <script src="../libs/stats.min.js"></script>
+    <script src="../libs/ammo.js"></script>
+    <script src="../libs/playcanvas-stable.js"></script>
+</head>
+<body>
+
+<canvas id="application"></canvas>
+
+<script type="text/javascript">
+
+    class Main
+    {
+        constructor()
+        {
+            let canvas = document.getElementById('application');
+            let app = new pc.Application(canvas, {});
+            app.start();
+
+            let stats = new Stats();
+            stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+            document.body.appendChild( stats.dom );
+
+            // fill the available space at full resolution
+            app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
+            app.setCanvasResolution(pc.RESOLUTION_AUTO);
+
+            let game = new GameWorld(app.root);
+
+            // ensure canvas is resized when window changes size
+            window.addEventListener('resize', ()=> {
+                app.resizeCanvas();
+            });
+
+            // register a global update event
+            app.on("update", (deltaTime) => {
+                stats.begin();
+
+                game.update(deltaTime);
+
+                stats.end();
+            });
+        }
+    }
+
+    class GameWorld
+    {
+        constructor(root)
+        {
+
+            // create box entity
+            let cube = new pc.Entity('cube');
+            cube.addComponent('model', {
+                type: 'box'
+            });
+
+            // create camera entity
+            let camera = new pc.Entity('camera');
+            camera.addComponent('camera', {
+                clearColor: new pc.Color(0.1, 0.1, 0.1)
+            });
+
+            // create directional light entity
+            let light = new pc.Entity('light');
+            light.addComponent('light');
+
+            // add to hierarchy
+            root.addChild(cube);
+            root.addChild(camera);
+            root.addChild(light);
+
+            // set up initial positions and orientations
+            camera.setPosition(0, 0, 3);
+            light.setEulerAngles(45, 0, 0);
+
+            this.cube = cube;
+        }
+
+        update(deltaTime)
+        {
+            //console.log(deltaTime);
+            this.cube.rotate(10 * deltaTime, 20 * deltaTime, 30 * deltaTime);
+
+        }
+
+    }
+
+    new Main();
+
+</script>
+
+</body>
+</html>

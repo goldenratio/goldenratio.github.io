@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #application {
+
+        }
+    </style>
+    <script src="../libs/playcanvas-stable.js"></script>
+    <!--<script src="../libs/ammo.js"></script>-->
+    <script src="../libs/p2.min.js"></script>
+    <script src="../libs/p2-integration.js"></script>
+</head>
+
+<body>
+<!-- The canvas element -->
+<canvas id="application-canvas" width="506" height="900"></canvas>
+
+<!-- The script -->
+<script>
+
+    function createMaterial (color) {
+        let diffuse;
+        switch (color)
+        {
+            case "green":
+                diffuse = new pc.Color(0, 1, 0);
+                break;
+
+            case "white":
+                diffuse = new pc.Color(1, 1, 1);
+                break;
+        }
+
+        let material = new pc.PhongMaterial();
+        material.diffuse = diffuse;
+        // we need to call material.update when we change its properties
+        material.update();
+        return material;
+    }
+
+    // ***********    Create our floor   *******************
+
+    class Floor extends pc.Entity
+    {
+        constructor()
+        {
+            super();
+
+            let floor = this;
+            floor.addComponent("model", {
+                type: "box"
+            });
+
+            const restitution = 0.5;
+            // make the floor white
+            floor.model.material = createMaterial("white");
+
+            // scale it
+            floor.setLocalScale(10, 1, 10);
+
+            // rotate
+            floor.rotate(20, 0, 0);
+
+            // add a collision component
+            floor.addComponent("collision", {
+                type: "box",
+                halfExtents: new pc.Vec3(5, 0.5, 5)
+            });
+
+            floor.root.addComponent("script");
+            floor.root.script.create("p2Body", {
+                attributes: {
+                    type: p2.Body.STATIC
+                }
+            });
+
+            floor.root.script.create("p2Box", {
+                attributes: {
+                    collisionGroup: 1,
+                    collisionMask: 1
+                }
+            });
+
+            floor.root.script.create("p2Material", {
+                attributes: {
+                    restitution: restitution
+                }
+            });
+        }
+    }
+
+
+    // ***********    Create lights   *******************
+
+    class Light extends pc.Entity
+    {
+        constructor()
+        {
+            super();
+
+            this.addComponent("light", {
+                type: "directional",
+                color: new pc.Color(1, 1, 1),
+                castShadows: true,
+                shadowBias: 0.05,
+                normalOffsetBias: 0.05,
+                shadowResolution: 2048
+            });
+
+            // set the direction for our light
+            this.setLocalEulerAngles(45, 30, 0);
+        }
+    }
+
+    // ***********    Create camera    *******************
+
+    class Camera extends pc.Entity
+    {
+        constructor()
+        {
+            super();
+            let camera = this;
+            camera.addComponent("camera", {
+                clearColor: new pc.Color(0.5, 0.5, 0.8),
+                farClip: 50
+            });
+        }
+    }
+
+
+    // ***********    Create Sphere    *******************
+
+    class Sphere extends pc.Entity
+    {
+        constructor()
+        {
+            super();
+
+            const restitution = 0.5;
+
+            let sphereTemplate = this;
+            sphereTemplate.addComponent("model", {
+                type: "sphere",
+                castShadows: true
+            });
+
+            sphereTemplate.addComponent("collision", {
+                type: "sphere",
+                radius: 0.5
+            });
+
+            // make the sphere green
+            // create a few materials for our objects
+            sphereTemplate.model.material = createMaterial("green");
+            sphereTemplate.setPosition(0, 10, 0);
+
+            sphereTemplate.root.addComponent("script");
+            sphereTemplate.root.script.create("p2Body", {
+                attributes: {
+                    type: p2.Body.DYNAMIC,
+                    mass: 50
+                }
+            });
+            sphereTemplate.root.script.create("p2Circle", {
+                attributes: {
+                    radius: 0.5,
+                    collisionGroup: 1,
+                    collisionMask: 1
+                }
+            });
+            sphereTemplate.root.script.create("p2Material", {
+                attributes: {
+                    restitution: restitution
+                }
+            });
+
+        }
+    }
+
+
+    class App extends pc.Application
+    {
+        constructor(canvas)
+        {
+            super(canvas);
+            this.canvas = canvas;
+            this._init();
+        }
+
+        _init()
+        {
+            // Create the application and start the update loop
+            let app = this;
+            app.start();
+
+            addP2Integration();
+
+            // Set the canvas to fill the window and automatically change resolution to be the same as the canvas size
+            app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
+            app.setCanvasResolution(pc.RESOLUTION_AUTO);
+
+            app.scene.ambientLight = new pc.Color(0.2, 0.2, 0.2);
+
+            app.root.addComponent("script");
+            app.root.script.create("p2World", {
+                attributes: {
+                    defaultFriction: 0,
+                    gravity: new pc.Vec2(0, -9.8)
+                }
+            });
+        }
+    }
+
+    // ---------------------------------------------
+
+    // ***********    Initialize application   *******************
+    let canvas = document.getElementById("application-canvas");
+    let app = new App(canvas);
+
+    // add the floor to the hierarchy
+    let floor = new Floor();
+    app.root.addChild(floor);
+
+    // Add the light to the hierarchy
+    let light = new Light();
+    app.root.addChild(light);
+
+    // Create an Entity with a camera component
+    let camera = new Camera();
+    app.root.addChild(camera);
+
+    // Move the camera a little further away
+    camera.translate(0, 10, 20);
+    camera.lookAt(0, 0, 0);
+
+    // A sphere...
+    let sphere = new Sphere();
+    app.root.addChild(sphere);
+
+    window.addEventListener('resize', ()=> {
+        app.resizeCanvas();
+    });
+
+</script>
+</body>
+</html>
