@@ -16,6 +16,8 @@
   if (promise !== undefined) {
 	  promise.catch(function(err) {
 		  console.error('failed: ', err);
+		  console.error(err.toString());
+		  console.error(JSON.parse(err));
 	  });
   }
 </script>
