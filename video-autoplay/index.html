@@ -12,6 +12,7 @@
 	
 <script type="text/javascript">
   var videoEl = document.getElementById('test-video');
+	videoEl.muted = true;
   var promise = videoEl.play();
   if (promise !== undefined) {
 	  promise.catch(function(err) {
