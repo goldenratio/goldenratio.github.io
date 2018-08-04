@@ -8,6 +8,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 </head>
 <body>
-<video width="320" height="240" src='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' autoplay muted></video>
+<video id="test-video" width="320" height="240" src='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' playsinline webkit-playsinline muted disablepictureinpicture="true"></video>
+	
+<script type="text/javascript">
+  var videoEl = document.getElementById('test-video');
+  var promise = videoEl.play();
+  if (promise !== undefined) {
+	  promise.catch(function(err) {
+		  console.error(err);
+	  });
+  }
+</script>
 </body>
 </html>
