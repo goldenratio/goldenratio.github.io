@@ -15,8 +15,8 @@
   var promise = videoEl.play();
   if (promise !== undefined) {
 	  promise.catch(function(err) {
-		  console.error('failed: ', err);
-		  console.error(err.toString());
+		  alert(err.toString());
+		  console.error('failed: ', err);	
 		  console.error(JSON.parse(err));
 	  });
   } else {
