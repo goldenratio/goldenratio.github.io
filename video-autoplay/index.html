@@ -14,9 +14,11 @@
        controlsList="nodownload nofullscreen noremoteplayback">
 </video>
 	
+	<textarea id="log-tf"></textarea>
+	
 <script type="text/javascript">
   var videoEl = document.getElementById('test-video');
-	videoEl.muted = true;
+  videoEl.muted = true;
   var promise = videoEl.play();
   if (promise !== undefined) {
 	  promise.catch(function(err) {
@@ -26,6 +28,13 @@
 	  });
   } else {
 	  console.log('play does not support promise');
+  }
+	
+  appendLog('hello world');
+	
+  function appendLog(log) {
+	  var logTf = document.getElementById('log-tf');
+	  logTf.value += log + '\n';
   }
 </script>
 </body>
