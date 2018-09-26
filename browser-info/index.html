@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+	<title>Browser Info</title>
+</head>
+<body>
+<div>
+  innerWidth: <span id='inner-width-id'>0</span>px <br>
+  innerHeight: <span id='inner-height-id'>0</span>px <br><br>
+  devicePixelRatio: <span id='dpr-id'>0</span> <br>
+</div>
+
+<script type='text/javascript'>
+const { innerWidth, innerHeight, devicePixelRatio } = window;
+
+document.getElementById('inner-width-id').innerText = innerWidth;
+document.getElementById('inner-height-id').innerText = innerHeight;
+
+document.getElementById('dpr-id').innerText = devicePixelRatio;
+</script>
+</body>
+</html>
