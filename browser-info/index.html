@@ -5,19 +5,28 @@
   <title>Browser Info</title>
 </head>
 <body>
-<div>
-  innerWidth: <span id='inner-width-id'>0</span>px <br>
-  innerHeight: <span id='inner-height-id'>0</span>px <br><br>
-  devicePixelRatio: <span id='dpr-id'>0</span> <br>
+<div id='info'>
 </div>
 
 <script type='text/javascript'>
+function displayInfo(value) {
+  var textNode = document.createTextNode(value);
+  var el = document.getElementById('info');
+  el.appendChild(textNode);
+}
+
+function breakLine() {
+  var br = document.createElement('br')
+  var el = document.getElementById('info');
+  el.appendChild(br);
+}
+  
 const { innerWidth, innerHeight, devicePixelRatio } = window;
 
-document.getElementById('inner-width-id').innerText = innerWidth;
-document.getElementById('inner-height-id').innerText = innerHeight;
-
-document.getElementById('dpr-id').innerText = devicePixelRatio;
+displayInfo(`innerWidth: ${innderWidth} px`);
+displayInfo(`innerHeight: ${innerHeight} px`);
+breakLine();
+displayInfo(`devicePixelRatio: ${devicePixelRatio} px`);
 </script>
 </body>
 </html>
