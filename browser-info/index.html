@@ -21,12 +21,21 @@ function breakLine() {
   el.appendChild(br);
 }
   
-const { innerWidth, innerHeight, devicePixelRatio } = window;
+const { innerWidth, innerHeight, devicePixelRatio, screen } = window;
 
 displayInfo(`innerWidth: ${innerWidth} px`);
 displayInfo(`innerHeight: ${innerHeight} px`);
 breakLine();
 displayInfo(`devicePixelRatio: ${devicePixelRatio} px`);
+
+  breakLine();
+  breakLine();
+displayInfo(`screen.width: ${screen.width} px`);  
+displayInfo(`screen.height: ${screen.height} px`);  
+  breakLine();
+  breakLine();
+  displayInfo(`screen.availWidth: ${screen.availWidth} px`);  
+displayInfo(`screen.availHeight: ${screen.availHeight} px`);  
 </script>
 </body>
 </html>
