@@ -1,7 +1,9 @@
+import { asModule, setASModuleExports, getString } from './as-utils.js';
+
 const importObj = {
   module: {
-    callJSFunction: () => {
-      console.log(`calling JS function`);
+    log: (msgPtr) => {
+      console.log(`WASM >> ${getString(asModule, msgPtr)}`);
     }
   },
   env: {
@@ -13,7 +15,9 @@ const importObj = {
 const wasm = WebAssembly.instantiateStreaming(fetch('./wasm/asmodule.wasm'), importObj);
 wasm
   .then(({ instance }) => {
-    const exports = instance.exports;
+    const { exports } = instance;
+    setASModuleExports(exports);
+
     const { add } = exports;
     console.log(`2 + 4 = ${add(2, 4)}`);
   })
