@@ -11,13 +11,16 @@
 <script type='text/javascript'>
 var canvasElement = document.createElement('canvas');
 var gpu;
+var vendor;
 try {
   var context = canvasElement.getContext('webgl');
   var extension = context.getExtension('WEBGL_debug_renderer_info');
   gpu = context.getParameter(extension.UNMASKED_RENDERER_WEBGL);
+  vendor = context.getParameter(extension.UNMASKED_VENDOR_WEBGL);
 }
 catch (e) {
   gpu = 'unknown';
+  vendor = 'unknown';
 }
   
 function displayInfo(value) {
@@ -54,6 +57,7 @@ function breakLine() {
   breakLine();
   
   displayInfo('GPU: ' + gpu);
+  displayInfo('vendoe: ' + vendor);
   
 </script>
 </body>
