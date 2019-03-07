@@ -9,6 +9,17 @@
 </div>
 
 <script type='text/javascript'>
+var canvasElement = document.createElement('canvas');
+var gpu;
+try {
+  var context = canvasElement.getContext('webgl');
+  var extension = context.getExtension('WEBGL_debug_renderer_info');
+  gpu = context.getParameter(extension.UNMASKED_RENDERER_WEBGL);
+}
+catch (e) {
+  gpu = 'unknown';
+}
+  
 function displayInfo(value) {
   var textNode = document.createTextNode(value);
   var el = document.getElementById('info');
@@ -39,6 +50,10 @@ function breakLine() {
 
   displayInfo('screen.availWidth: ' + window.screen.availWidth + ' px');
   displayInfo('screen.availHeight: ' + window.screen.availHeight + ' px');
+  
+  breakLine();
+  
+  displayInfo('GPU: ' + gpu);
   
 </script>
 </body>
