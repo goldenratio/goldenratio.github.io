@@ -44,7 +44,7 @@ function displayDetails() {
 
   breakLine();
 
-  displayInfo('screen orientation: ' + window.screen && window.screen.orientation ? window.screen.orientation : window.orientation);
+  displayInfo('screen orientation: ' + window.screen && window.screen.orientation ? window.screen.orientation.type : window.orientation);
   displayInfo('devicePixelRatio: ' + window.devicePixelRatio);
 
   breakLine();
