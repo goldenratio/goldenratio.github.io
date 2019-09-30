@@ -37,6 +37,8 @@ function breakLine() {
 }
   
 
+function displayDetails() {
+  document.getElementById('info').innerHTML = '';
   displayInfo('innerWidth: ' + window.innerWidth + ' px');
   displayInfo('innerHeight: ' + window.innerHeight + ' px');
 
@@ -48,18 +50,25 @@ function breakLine() {
 
   displayInfo('screen.width: ' + window.screen.width + ' px');
   displayInfo('screen.height: ' + window.screen.height + ' px');
-  
+
   breakLine();
 
   displayInfo('screen.availWidth: ' + window.screen.availWidth + ' px');
   displayInfo('screen.availHeight: ' + window.screen.availHeight + ' px');
-  
+
   breakLine();
-  
+
   displayInfo('GPU: ' + gpu);
   displayInfo('vendor: ' + vendor);
   displayInfo('userAgent: ' + navigator.userAgent);
+}
   
+displayDetails();
+  
+window.addEventListener("orientationchange", function() {
+  displayDetails();
+});
+
 </script>
 </body>
 </html>
