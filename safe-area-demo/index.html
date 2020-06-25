@@ -33,6 +33,10 @@
 <body>
 <div id='info'>
 </div>
+<br><br>
+<button type="button" onclick="goFullscreen()">Fullscreen</button> <br><br>
+<button type="button" onclick="updateInfo()">Update Stats</button> 
+  
   <script src='https://unpkg.com/safe-area-insets@1.4.1/out/umd/index.min.js'></script>
   <script type='text/javascript'>
 
@@ -45,6 +49,19 @@
     infoEl.innerHTML += '<br>left: ' + safeAreaInsets.left;
     infoEl.innerHTML += '<br>right: ' + safeAreaInsets.right;
     infoEl.innerHTML += '<br>bottom: ' + safeAreaInsets.bottom;  
+  }
+    
+  function goFullscreen() {
+     var elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
   }
 
   updateInfo();
