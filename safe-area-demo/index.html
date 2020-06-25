@@ -20,7 +20,7 @@
       padding: 0;
       border: 0;
       outline: 0;
-      background: #000;
+      background: #fff;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 
@@ -33,22 +33,22 @@
 <body>
 <div id='info'>
 </div>
-<script src='https://unpkg.com/safe-area-insets@1.4.1/out/umd/index.min.js'/>
-<script type='text/javascript'>
+  <script src='https://unpkg.com/safe-area-insets@1.4.1/out/umd/index.min.js'></script>
+  <script type='text/javascript'>
 
-function updateInfo() {
-  console.log(safeAreaInsets);
-  var infoEl = document.getElementById('info');
-  infoEl.innerHTML = '';
-  infoEl.innerHTML += 'supports: ' + safeAreaInsets.support;
-  infoEl.innerHTML += '<br>top: ' + safeAreaInsets.top;
-  infoEl.innerHTML += '<br>left: ' + safeAreaInsets.left;
-  infoEl.innerHTML += '<br>right: ' + safeAreaInsets.right;
-  infoEl.innerHTML += '<br>bottom: ' + safeAreaInsets.bottom;  
-}
+  function updateInfo() {
+    console.log(safeAreaInsets);
+    var infoEl = document.getElementById('info');
+    infoEl.innerHTML = '';
+    infoEl.innerHTML += 'supports: ' + safeAreaInsets.support;
+    infoEl.innerHTML += '<br>top: ' + safeAreaInsets.top;
+    infoEl.innerHTML += '<br>left: ' + safeAreaInsets.left;
+    infoEl.innerHTML += '<br>right: ' + safeAreaInsets.right;
+    infoEl.innerHTML += '<br>bottom: ' + safeAreaInsets.bottom;  
+  }
 
-updateInfo();
-window.addEventlistener('resize', () => updateInfo()); 
-</script>
+  updateInfo();
+  window.addEventlistener('resize', () => updateInfo()); 
+  </script>
 </body>
 </html>
