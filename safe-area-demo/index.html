@@ -21,21 +21,44 @@
       border: 0;
       outline: 0;
       background: #fff;
+      font-size: 14px;
+      font-family: Roboto,Helvetica,'Helvetica Neue',Verdana,Arial,serif;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 
-    canvas {
+    #content {
+      --safe-area-inset-top: env(safe-area-inset-top);
+      --safe-area-inset-bottom: env(safe-area-inset-bottom);
+      --safe-area-inset-left: env(safe-area-inset-left);
+      --safe-area-inset-right: env(safe-area-inset-right);
       display: block;
       position: absolute;
+      height: auto;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin-top: var(--safe-area-inset-top);
+      margin-bottom: var(--safe-area-inset-bottom);
+      margin-right: var(--safe-area-inset-right);
+      margin-left: var(--safe-area-inset-left);
+      background-color: #ccc;
+    }
+
+    #inner-content {
+      padding: 10px;
     }
   </style>
 </head>
 <body>
-<div id='info'>
-</div>
-<br><br>
-<button type="button" onclick="goFullscreen()">Fullscreen</button> <br><br>
-<button type="button" onclick="updateInfo()">Update Stats</button> 
+  <div id="content">
+    <div id="inner-content">
+      <div id='info'></div>
+      <br><br>
+      <button type="button" onclick="goFullscreen()" id="fullscreen-button">Fullscreen</button>
+      <button type="button" onclick="updateInfo()" id="stats-button">Update Stats</button> 
+    </div>
+  </div>
   
   <script src='https://unpkg.com/safe-area-insets@1.4.1/out/umd/index.min.js'></script>
   <script type='text/javascript'>
@@ -62,6 +85,12 @@
       } else if (elem.msRequestFullscreen) { /* IE/Edge */
         elem.msRequestFullscreen();
       }
+  }
+
+  const fullscreenSuported = document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled;
+  console.log(fullscreenSuported);
+  if (!fullscreenSuported) {
+    document.getElementById('fullscreen-button').style.display = 'none';
   }
 
   updateInfo();
