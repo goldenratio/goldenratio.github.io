@@ -12,11 +12,21 @@
 var canvasElement = document.createElement('canvas');
 var gpu;
 var vendor;
+var maxAnisotropy = 0;
 try {
   var context = canvasElement.getContext('webgl');
   var extension = context.getExtension('WEBGL_debug_renderer_info');
   gpu = context.getParameter(extension.UNMASKED_RENDERER_WEBGL);
   vendor = context.getParameter(extension.UNMASKED_VENDOR_WEBGL);
+  
+  var anisotropicExtension = context
+    ? context.getExtension('EXT_texture_filter_anisotropic') ||
+      context.getExtension('MOZ_EXT_texture_filter_anisotropic') ||
+      context.getExtension('WEBKIT_EXT_texture_filter_anisotropic')
+    : null;
+  if (context && anisotropicExtension) {
+    maxAnisotropy = context.getParameter(anisotropicExtension.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+  }
 }
 catch (e) {
   gpu = 'unknown';
@@ -62,6 +72,7 @@ function displayDetails() {
 
   displayInfo('GPU: ' + gpu);
   displayInfo('vendor: ' + vendor);
+  displayInfo('maxAnisotropy: ' + maxAnisotropy);
   displayInfo('userAgent: ' + navigator.userAgent);
 }
   
