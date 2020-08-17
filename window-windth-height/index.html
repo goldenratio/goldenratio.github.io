@@ -58,6 +58,13 @@ displayDetails();
 window.addEventListener("orientationchange", function() {
   displayDetails();
 });
+  
+window.addEventListener("resize", function() {
+  displayDetails();
+  setTimeout(() => {
+    displayDetails();
+  }, 2000);
+});
 
 </script>
 </body>
