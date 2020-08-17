@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <title>Browser Info</title>
+</head>
+<body>
+<div id='info'>
+</div>
+
+<script type='text/javascript'>
+var canvasElement = document.createElement('canvas');
+var gpu;
+var vendor;
+var maxAnisotropy = 0;
+try {
+  var context = canvasElement.getContext('webgl');
+  var extension = context.getExtension('WEBGL_debug_renderer_info');
+  gpu = context.getParameter(extension.UNMASKED_RENDERER_WEBGL);
+  vendor = context.getParameter(extension.UNMASKED_VENDOR_WEBGL);
+  
+  var anisotropicExtension = context
+    ? context.getExtension('EXT_texture_filter_anisotropic') ||
+      context.getExtension('MOZ_EXT_texture_filter_anisotropic') ||
+      context.getExtension('WEBKIT_EXT_texture_filter_anisotropic')
+    : null;
+  if (context && anisotropicExtension) {
+    maxAnisotropy = context.getParameter(anisotropicExtension.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+  }
+}
+catch (e) {
+  gpu = 'unknown';
+  vendor = 'unknown';
+}
+  
+function displayInfo(value) {
+  var textNode = document.createTextNode(value);
+  var el = document.getElementById('info');
+  el.appendChild(textNode);
+  breakLine();
+}
+
+function breakLine() {
+  var br = document.createElement('br')
+  var el = document.getElementById('info');
+  el.appendChild(br);
+}
+  
+
+function displayDetails() {
+  document.getElementById('info').innerHTML = '';
+  displayInfo('window.innerWidth: ' + window.innerWidth + ' px');
+  displayInfo('window.innerHeight: ' + window.innerHeight + ' px');
+}
+  
+displayDetails();
+  
+window.addEventListener("orientationchange", function() {
+  displayDetails();
+});
+
+</script>
+</body>
+</html>
