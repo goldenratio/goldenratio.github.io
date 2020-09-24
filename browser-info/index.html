@@ -54,6 +54,8 @@ function displayDetails() {
 
   breakLine();
 
+  displayInfo('supportsOrientation: ' + 'onorientationchange' in window);
+  
   var orientationValue = window.screen && window.screen.orientation ? window.screen.orientation.type : window.orientation;
   displayInfo('screen orientation: ' + orientationValue);
   displayInfo('devicePixelRatio: ' + window.devicePixelRatio);
