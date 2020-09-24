@@ -55,7 +55,7 @@ function displayDetails() {
   breakLine();
 
   var supportsOrientation = 'onorientationchange' in window;
-  displayInfo('supportsOrientation: ' + supportsOrientation);
+  displayInfo("'onorientationchange' in window: " + supportsOrientation);
   
   var orientationValue = window.screen && window.screen.orientation ? window.screen.orientation.type : window.orientation;
   displayInfo('screen orientation: ' + orientationValue);
