@@ -52,6 +52,7 @@ window.addEventListener("orientationchange", function() {
 });
   
 window.addEventListener("resize", function() {
+  fixViewportHeight();
   displayDetails();
   setTimeout(() => {
     displayDetails();
