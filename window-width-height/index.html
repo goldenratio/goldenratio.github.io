@@ -58,14 +58,15 @@ window.addEventListener("resize", function() {
   }, 2000);
 });
 
-setTimeout(function() {
+function fixViewportHeight() {
   var viewheight = window.innerHeight;
   var viewwidth = window.innerWidth;
   var viewport = document.querySelector("meta[name=viewport]");
   var content = viewport.getAttribute('content') + ", height=" + viewheight + "px";
   viewport.setAttribute("content", content);
-}, 500);
+}
 
+fixViewportHeight();
 
 </script>
 </body>
