@@ -5,23 +5,26 @@
   <title>Browser Info</title>
   <style>
     html, body {
-    	height: 100%;
-		margin: 0px;
-	}
-	.container {
-		height: 100%;
-		background: #f0e68c;
-	}
+      height: 100%;
+    margin: 0px;
+  }
+  .container {
+    height: 100%;
+    background: #f0e68c;
+  }
 </style>
 </head>
 <body>
       <div class="container">
         <div id='info'></div>
-	<div><input type="text"></div>
+  <div><input type="text"></div>
   </div>
   
 
 <script type='text/javascript'>
+
+// Global boolean variable that holds the current orientation
+var pageInPortraitMode;
 
 function displayInfo(value) {
   var textNode = document.createTextNode(value);
@@ -52,22 +55,28 @@ window.addEventListener("orientationchange", function() {
 });
   
 window.addEventListener("resize", function() {
-  // fixViewportHeight();
+  fixViewportHeight(true);
   displayDetails();
   setTimeout(() => {
     displayDetails();
   }, 2000);
 });
 
-function fixViewportHeight() {
-  var viewheight = window.innerHeight;
-  var viewwidth = window.innerWidth;
-  var viewport = document.querySelector("meta[name=viewport]");
-  var content = "height=" + viewheight + "px, width=" + viewwidth + "px, viewport-fit=cover, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0, minimal-ui";
-  viewport.setAttribute("content", content);
+function fixViewportHeight(isResize) {
+  if (isResize) {
+    if (((pageInPortraitMode === true) && (window.innerHeight < window.innerWidth)) || ((pageInPortraitMode === false) && (window.innerHeight > window.innerWidth))) {
+        pageInPortraitMode = window.innerHeight > window.innerWidth;
+        document.getElementById("viewport").setAttribute("content", "width=" + window.innerWidth + ", height=" + window.innerHeight + ", initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+    } 
+  } else {
+    pageInPortraitMode = window.innerHeight > window.innerWidth;
+  document.getElementById("viewport").setAttribute("content", "width=" + window.innerWidth + ", height=" + window.innerHeight + ", initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+  }
+
 }
 
 fixViewportHeight();
+  
 
 </script>
 </body>
