@@ -3793,7 +3793,7 @@ var DepthResource = /** @class */ (function (_super) {
         else {
             glTexture.width = baseTexture.width;
             glTexture.height = baseTexture.height;
-            gl.texImage2D(baseTexture.target, 0, 
+            gl.texImage2D(baseTexture.target, 0,
             //  gl.DEPTH_COMPONENT16 Needed for depth to render properly in webgl2.0
             renderer.context.webGLVersion === 1 ? gl.DEPTH_COMPONENT : gl.DEPTH_COMPONENT16, baseTexture.width, baseTexture.height, 0, baseTexture.format, baseTexture.type, this.data);
         }
@@ -15017,9 +15017,9 @@ var BlurFilterPass = /** @class */ (function (_super) {
         var _this = this;
         var vertSrc = generateBlurVertSource(kernelSize, horizontal);
         var fragSrc = generateBlurFragSource(kernelSize);
-        _this = _super.call(this, 
+        _this = _super.call(this,
         // vertex shader
-        vertSrc, 
+        vertSrc,
         // fragment shader
         fragSrc) || this;
         _this.horizontal = horizontal;
@@ -36812,7 +36812,7 @@ function invokeResolver(resolver, promise) {
 function invokeCallback(subscriber){
   var owner = subscriber.owner;
   var settled = owner.state_;
-  var value = owner.data_;  
+  var value = owner.data_;
   var callback = subscriber[settled];
   var promise = subscriber.then;
 
@@ -47437,8 +47437,8 @@ var Camera = /** @class */ (function (_super) {
         var localID = -1;
         _this.renderer.on("prerender", function () {
             if (!_this._aspect) {
-                // When there is no specific aspect set, this is used for the 
-                // projection matrix to always update each frame (in case when the 
+                // When there is no specific aspect set, this is used for the
+                // projection matrix to always update each frame (in case when the
                 // renderer aspect ratio has changed).
                 if (renderer.width / renderer.height !== aspect) {
                     _this._transformId++;
@@ -47447,7 +47447,7 @@ var Camera = /** @class */ (function (_super) {
             }
             // @ts-ignore: _localID do exist, but be careful if this changes.
             if (!_this.parent && localID !== _this.transform._localID) {
-                // When the camera is not attached to the scene hierarchy the transform 
+                // When the camera is not attached to the scene hierarchy the transform
                 // needs to be updated manually.
                 _this.transform.updateTransform();
                 // @ts-ignore: _localID do exist, but be careful if this changes.
@@ -47551,12 +47551,12 @@ var Camera = /** @class */ (function (_super) {
         var _a;
         if (point === void 0) { point = new observable_point_1.ObservablePoint3D(function () { }, undefined); }
         if (viewSize === void 0) { viewSize = this.renderer.screen; }
-        // Make sure the transform is updated in case something has been changed, 
+        // Make sure the transform is updated in case something has been changed,
         // otherwise it may be using wrong values.
         this.transform.updateTransform((_a = this.parent) === null || _a === void 0 ? void 0 : _a.transform);
         var far = this.far;
-        // Before doing the calculations, the far clip plane is changed to the same 
-        // value as distance from the camera. By doing this we can just set z value 
+        // Before doing the calculations, the far clip plane is changed to the same
+        // value as distance from the camera. By doing this we can just set z value
         // for the clip space to 1 and the desired z position will be correct.
         this.far = distance;
         var invertedViewProjection = mat4_1.Mat4.invert(this.viewProjection, mat4);
@@ -47584,7 +47584,7 @@ var Camera = /** @class */ (function (_super) {
         var _a;
         if (point === void 0) { point = new PIXI.Point(); }
         if (viewSize === void 0) { viewSize = this.renderer.screen; }
-        // Make sure the transform is updated in case something has been changed, 
+        // Make sure the transform is updated in case something has been changed,
         // otherwise it may be using wrong values.
         this.transform.updateTransform((_a = this.parent) === null || _a === void 0 ? void 0 : _a.transform);
         var worldSpace = vec4_1.Vec4.set(x, y, z, 1, vec4);
@@ -49271,7 +49271,7 @@ var glTFParser = /** @class */ (function () {
             // Went back and forth about NO_PREMULTIPLIED_ALPHA. The default in
             // PixiJS is to have premultiplied alpha textures, but this may not work
             // so well when rendering objects as opaque (which have alpha equal to 0).
-            // In that case it's impossible to retrieve the original RGB values, 
+            // In that case it's impossible to retrieve the original RGB values,
             // because they are all zero when using premultiplied alpha. Both the glTF
             // Sample Viewer and Babylon.js uses NO_PREMULTIPLIED_ALPHA so decided to
             // do the same.
@@ -49945,7 +49945,7 @@ exports.CubemapLoader = {
                 return resource.url.substring(0, resource.url.lastIndexOf("/") + 1) + mipmap.replace("{{face}}", face);
             });
         });
-        // The list of urls (faces and mipmaps) which needs to be loaded before the 
+        // The list of urls (faces and mipmaps) which needs to be loaded before the
         // cubemap should be created.
         var urls = mipmaps.reduce(function (acc, val) { return acc.concat(val); }, []);
         loader.add(urls.filter(function (url) { return !loader.resources[url]; }).map(function (url) {
@@ -50242,8 +50242,8 @@ var Material = /** @class */ (function () {
         if (!this._shader) {
             this._shader = this.createShader(mesh, renderer);
             if (!this._shader) {
-                // The shader couldn't be created for some reason. Just ignore it and 
-                // try again at next render. The required assets may not have been loaded 
+                // The shader couldn't be created for some reason. Just ignore it and
+                // try again at next render. The required assets may not have been loaded
                 // yet, so maybe we are waiting for those.
                 return;
             }
@@ -51214,7 +51214,7 @@ var StandardMaterial = /** @class */ (function (_super) {
         var lightingEnvironment = this.lightingEnvironment || lighting_environment_1.LightingEnvironment.main;
         var features = standard_material_feature_set_1.StandardMaterialFeatureSet.build(renderer, mesh, mesh.geometry, this, lightingEnvironment);
         if (!features) {
-            // The shader features couldn't be built, some resources may still be 
+            // The shader features couldn't be built, some resources may still be
             // loading. Don't worry, we will retry creating shader at next render.
             return undefined;
         }
@@ -52562,8 +52562,8 @@ var PickingInteraction = /** @class */ (function () {
             return;
         }
         // Because of how PixiJS interaction works and the design of the picking,
-        // the "hitTest" function needs to be called. Otherwise, in some 
-        // circumstances; the picking is affected by in which order the interaction 
+        // the "hitTest" function needs to be called. Otherwise, in some
+        // circumstances; the picking is affected by in which order the interaction
         // object was added to the heirarchy.
         this.renderer.plugins.interaction.hitTest(new pixi_js_1.Point(0, 0));
         if (this._hitAreas.length > 0) {
@@ -52649,7 +52649,7 @@ var PickingMap = /** @class */ (function () {
         var e_1, _a;
         this._renderer.renderTexture.bind(this._output);
         if (this._update++ % 2 === 0) {
-            // For performance reasons, the update method alternates between rendering 
+            // For performance reasons, the update method alternates between rendering
             // the meshes and reading the pixels from the rendered texture.
             this._renderer.renderTexture.clear();
             try {
@@ -53945,8 +53945,8 @@ var SkyboxMaterial = /** @class */ (function (_super) {
         set: function (value) {
             if (value !== this._cubemap) {
                 if (!this._cubemap.valid) {
-                    // Remove the shader so it can be rebuilt with the current features. 
-                    // It may happen that we set a texture which is not yet valid, in that 
+                    // Remove the shader so it can be rebuilt with the current features.
+                    // It may happen that we set a texture which is not yet valid, in that
                     // case we don't want to render the skybox until it has become valid.
                     this._shader = undefined;
                 }
@@ -53964,7 +53964,7 @@ var SkyboxMaterial = /** @class */ (function (_super) {
         shader.uniforms.u_EnvironmentSampler = this.cubemap;
     };
     SkyboxMaterial.prototype.render = function (mesh, renderer) {
-        // Disable writing to the depth buffer. This is because we want all other 
+        // Disable writing to the depth buffer. This is because we want all other
         // objects to be in-front of the skybox.
         renderer.gl.depthMask(false);
         _super.prototype.render.call(this, mesh, renderer);
@@ -54298,7 +54298,7 @@ var SpriteBatchRenderer = /** @class */ (function (_super) {
         var _this = _super.call(this, renderer) || this;
         _this.shaderGenerator = new PIXI.BatchShaderGenerator(__nested_webpack_require_601690__(/*! ./shader/sprite.vert */ "./src/sprite/shader/sprite.vert"), __nested_webpack_require_601690__(/*! ./shader/sprite.frag */ "./src/sprite/shader/sprite.frag"));
         _this.geometryClass = sprite_batch_geometry_1.SpriteBatchGeometry;
-        // The vertex size when rendering 2D sprites is 6. Here, 16 is being added 
+        // The vertex size when rendering 2D sprites is 6. Here, 16 is being added
         // to hold the model matrix.
         _this.vertexSize = 6 + 16;
         Object.assign(_this.state, {
@@ -59208,7 +59208,7 @@ module.exports = {
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -59222,17 +59222,17 @@ module.exports = {
 /******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -59245,7 +59245,7 @@ module.exports = {
 /******/ 			return getter;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -59257,7 +59257,7 @@ module.exports = {
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -59269,12 +59269,12 @@ module.exports = {
 /******/ 			}
 /******/ 		})();
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -59285,7 +59285,7 @@ module.exports = {
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
 /******/ 		__webpack_require__.nmd = (module) => {
@@ -59294,7 +59294,7 @@ module.exports = {
 /******/ 			return module;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -59317,7 +59317,7 @@ const app = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.Application({
     sharedTicker: true,
 });
 document.body.appendChild(app.view);
-pixi_js__WEBPACK_IMPORTED_MODULE_0__.Loader.shared.add('barramundi-fish', './resources/barramundi-fish.glb').load((_, resources) => {
+pixi_js__WEBPACK_IMPORTED_MODULE_0__.Loader.shared.add('barramundi-fish', './v1.0.0/resources/barramundi-fish.glb').load((_, resources) => {
     // this fails
     // @ts-ignore
     app.stage.addChild(pixi3d__WEBPACK_IMPORTED_MODULE_1__.Model.from(resources['barramundi-fish'].gltf));
