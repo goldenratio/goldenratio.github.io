@@ -45,7 +45,21 @@ function breakLine() {
   var el = document.getElementById('info');
   el.appendChild(br);
 }
-  
+
+function isWebpSupported() {
+ var elem = document.createElement('canvas');
+
+ if (!!(elem.getContext && elem.getContext('2d')))
+ {
+  // was able or not to get WebP representation
+  return elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
+ }
+ else
+ {
+  // very old browser like IE 8, canvas not supported
+  return false;
+ }
+}
 
 function displayDetails() {
   document.getElementById('info').innerHTML = '';
@@ -77,6 +91,8 @@ function displayDetails() {
   displayInfo('vendor: ' + vendor);
   displayInfo('maxAnisotropy: ' + maxAnisotropy);
   displayInfo('userAgent: ' + navigator.userAgent);
+  
+    displayInfo('WebP: ' + isWebpSupported());
 }
   
 displayDetails();
