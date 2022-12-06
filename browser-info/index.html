@@ -13,6 +13,7 @@ var canvasElement = document.createElement('canvas');
 var gpu;
 var vendor;
 var maxAnisotropy = 0;
+var fragmentShaderPrecision = 0;
 try {
   var context = canvasElement.getContext('webgl');
   var extension = context.getExtension('WEBGL_debug_renderer_info');
@@ -26,6 +27,10 @@ try {
     : null;
   if (context && anisotropicExtension) {
     maxAnisotropy = context.getParameter(anisotropicExtension.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+  }
+  if(context && context.getShaderPrecisionFormat) {
+    const fragmentShader = context.getShaderPrecisionFormat(context.FRAGMENT_SHADER, context.HIGH_FLOAT);
+    fragmentShaderPrecision  = fragmentShader ? fragmentShader.precision : 0;
   }
 }
 catch (e) {
@@ -103,6 +108,7 @@ function displayDetails() {
   displayInfo('GPU: ' + gpu);
   displayInfo('vendor: ' + vendor);
   displayInfo('maxAnisotropy: ' + maxAnisotropy);
+  displayInfo('fragmentShaderPrecision: ' + fragmentShaderPrecision);
   displayInfo('userAgent: ' + navigator.userAgent);
   
   breakLine();
