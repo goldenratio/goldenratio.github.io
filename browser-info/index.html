@@ -115,6 +115,9 @@ function displayDetails() {
   
   displayInfo('WebP: ' + isWebpSupported());
   displayInfo('WASM: ' + isWASMSupported);
+  
+  breakLine();
+  displayInfo('isAppleWebkitBrowser: ' + typeof window.webkitConvertPointFromNodeToPage === 'function');
 }
   
 displayDetails();
