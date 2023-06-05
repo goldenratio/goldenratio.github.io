@@ -117,7 +117,9 @@ function displayDetails() {
   displayInfo('WASM: ' + isWASMSupported);
   
   breakLine();
-  displayInfo('isAppleWebkitBrowser: ' + typeof window.webkitConvertPointFromNodeToPage === 'function');
+  
+  var isAppleBrowser = typeof window.webkitConvertPointFromNodeToPage === 'function';
+  displayInfo('isAppleWebkitBrowser: ' + isAppleBrowser);
 }
   
 displayDetails();
