@@ -45,6 +45,21 @@ function displayInfo(value) {
   breakLine();
 }
 
+function displayJSON(title, jsonString) {
+  var contentDiv = document.createElement('div')
+
+  var textNode = document.createTextNode(title);
+  contentDiv.appendChild(textNode);
+
+  var jsonNode = document.createElement('pre');
+  jsonNode.innerText = jsonString;
+  contentDiv.appendChild(jsonNode);
+
+  var el = document.getElementById('info');
+  el.appendChild(contentDiv);
+  breakLine();
+}
+  
 function breakLine() {
   var br = document.createElement('br')
   var el = document.getElementById('info');
@@ -109,7 +124,6 @@ function displayDetails() {
   displayInfo('vendor: ' + vendor);
   displayInfo('maxAnisotropy: ' + maxAnisotropy);
   displayInfo('fragmentShaderPrecision: ' + fragmentShaderPrecision);
-  displayInfo('userAgent: ' + navigator.userAgent);
   
   breakLine();
   
@@ -120,6 +134,25 @@ function displayDetails() {
   
   var isAppleBrowser = typeof window.webkitConvertPointFromNodeToPage === 'function';
   displayInfo('isAppleWebkitBrowser: ' + isAppleBrowser);
+
+  breakLine();
+
+  displayInfo('User Agent: ' + navigator.userAgent);
+  if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+    navigator.userAgentData.getHighEntropyValues([
+      "architecture",
+      "model",
+      "platform",
+      "platformVersion",
+      "fullVersionList",
+     ])
+     .then((ua) => {
+      const info = JSON.stringify(ua, undefined, 2);
+      displayJSON('UserAgent Client Hints: ', info);
+     });
+  } else {
+    displayInfo('UserAgent Client Hints: n/a');
+  }
 }
   
 displayDetails();
