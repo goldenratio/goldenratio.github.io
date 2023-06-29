@@ -4,6 +4,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
   <meta http-equiv="Delegate-CH">
   <title>Browser Info</title>
+  <style>
+    :root {
+      --sat: env(safe-area-inset-top);
+      --sar: env(safe-area-inset-right);
+      --sab: env(safe-area-inset-bottom);
+      --sal: env(safe-area-inset-left);
+    }
+  </style>
 </head>
 <body>
 <div id='info'>
@@ -132,11 +140,18 @@ function displayDetails() {
   displayInfo('WASM: ' + isWASMSupported);
   
   breakLine();
+
+  displayInfo('Safe Area - top: ' + getComputedStyle(document.documentElement).getPropertyValue("--sat"));
+  displayInfo('Safe Area - bottom: ' + getComputedStyle(document.documentElement).getPropertyValue("--sab"));
+  displayInfo('Safe Area - left: ' + getComputedStyle(document.documentElement).getPropertyValue("--sal"));
+  displayInfo('Safe Area - right: ' + getComputedStyle(document.documentElement).getPropertyValue("--sar"));
+  breakLine();
   
   var isAppleBrowser = typeof window.webkitConvertPointFromNodeToPage === 'function';
   displayInfo('isAppleWebkitBrowser: ' + isAppleBrowser);
 
   breakLine();
+
 
   displayInfo('User Agent: ' + navigator.userAgent);
   if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
